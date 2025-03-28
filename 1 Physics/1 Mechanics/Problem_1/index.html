@@ -172,6 +172,115 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="investigating-the-range-as-a-function-of-the-angle-of-projection">Investigating the Range as a Function of the Angle of Projection</h1>
+<h2 id="step-1-understanding-projectile-motion">Step 1: Understanding Projectile Motion</h2>
+<p>Projectile motion follows two independent components:
+1. <strong>Horizontal Motion</strong>: Moves at constant velocity.
+2. <strong>Vertical Motion</strong>: Affected by gravity.</p>
+<p>Ignoring air resistance, we assume:
+- Initial velocity: <span class="arithmatex">\(v_0\)</span>
+- Launch angle: <span class="arithmatex">\(\theta\)</span>
+- Gravity: <span class="arithmatex">\(g\)</span></p>
+<p>The goal is to find how the range depends on <span class="arithmatex">\(\theta\)</span>.</p>
+<hr/>
+<h2 id="step-2-deriving-the-equations-of-motion">Step 2: Deriving the Equations of Motion</h2>
+<p>Using kinematic equations:</p>
+<h3 id="horizontal-motion">Horizontal Motion:</h3>
+<ul>
+<li>Initial horizontal velocity:<br/>
+  $$
+  v_{x0} = v_0\cos(\theta)
+  $$</li>
+<li>Horizontal displacement at time <span class="arithmatex">\(t\)</span>:<br/>
+  $$
+  x(t) = v_0\cos(\theta) t
+  $$</li>
+</ul>
+<h3 id="vertical-motion">Vertical Motion:</h3>
+<ul>
+<li>Initial vertical velocity:<br/>
+  $$
+  v_{y0} = v_0\sin(\theta)
+  $$</li>
+<li>Vertical displacement at time <span class="arithmatex">\(t\)</span>:<br/>
+  $$
+  y(t) = v_0\sin(\theta) t - \frac{1}{2}gt^2
+  $$</li>
+</ul>
+<p>The projectile reaches the ground when <span class="arithmatex">\(y = 0\)</span>. Solving for <span class="arithmatex">\(t\)</span>:</p>
+<div class="arithmatex">\[
+t_f = \frac{2v_0\sin(\theta)}{g}.
+\]</div>
+<hr/>
+<h2 id="step-3-calculating-the-range">Step 3: Calculating the Range</h2>
+<p>The range is the horizontal distance traveled before landing:</p>
+<div class="arithmatex">\[
+R = x(t_f) = v_0\cos(\theta) t_f.
+\]</div>
+<p>Substituting <span class="arithmatex">\(t_f\)</span>:</p>
+<div class="arithmatex">\[
+R = v_0\cos(\theta) \times \frac{2v_0\sin(\theta)}{g}.
+\]</div>
+<p>Using <span class="arithmatex">\(\sin(2\theta) = 2\sin(\theta)\cos(\theta)\)</span>:</p>
+<div class="arithmatex">\[
+R = \frac{v_0^2\sin(2\theta)}{g}.
+\]</div>
+<hr/>
+<h2 id="step-4-analyzing-the-range-equation">Step 4: Analyzing the Range Equation</h2>
+<ol>
+<li><strong>Effect of Angle</strong>:</li>
+<li>Maximum range occurs when <span class="arithmatex">\(\sin(2\theta) = 1\)</span>, i.e., <span class="arithmatex">\(\theta = 45^\circ\)</span>.</li>
+<li>
+<p>The function is symmetric about <span class="arithmatex">\(45^\circ\)</span>, meaning angles like <span class="arithmatex">\(30^\circ\)</span> and <span class="arithmatex">\(60^\circ\)</span> yield the same range.</p>
+</li>
+<li>
+<p><strong>Effect of Initial Velocity</strong>:</p>
+</li>
+<li>
+<p>Range increases quadratically with <span class="arithmatex">\(v_0\)</span>.</p>
+</li>
+<li>
+<p><strong>Effect of Gravity</strong>:</p>
+</li>
+<li>Increasing <span class="arithmatex">\(g\)</span> decreases range, as expected in stronger gravitational fields.</li>
+</ol>
+<hr/>
+<pre><code class="language-py">import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+v0 = 20  # Initial velocity (m/s)
+g = 9.81  # Gravitational acceleration (m/s^2)
+angles = np.linspace(0, 90, 100)  # Angles from 0 to 90 degrees
+radians = np.radians(angles)  # Convert to radians
+
+# Compute range
+ranges = (v0**2 * np.sin(2 * radians)) / g
+
+# Plot results
+plt.figure(figsize=(8, 5))
+plt.plot(angles, ranges, label=r"$R = \frac{v_0^2\sin(2\theta)}{g}$")
+plt.xlabel("Angle (degrees)")
+plt.ylabel("Range (m)")
+plt.title("Projectile Range vs. Angle of Projection")
+plt.legend()
+plt.grid()
+plt.show()
+</code></pre>
+<h2 id="step-5-practical-applications">Step 5: Practical Applications</h2>
+<ul>
+<li><strong>Sports</strong>: Finding the best angle for throwing a javelin or soccer ball.</li>
+<li><strong>Engineering</strong>: Estimating landing zones for projectiles.</li>
+<li><strong>Astronomy</strong>: Calculating trajectories of objects in space.</li>
+</ul>
+<hr/>
+<h2 id="step-6-model-limitations">Step 6: Model Limitations</h2>
+<ul>
+<li><strong>No Air Resistance</strong>: Real-world projectiles experience drag, which shortens the range.</li>
+<li><strong>Different Heights</strong>: If launched from or landing on different heights, calculations must be adjusted.</li>
+<li><strong>Wind Effects</strong>: Wind can increase or decrease range unpredictably.</li>
+</ul>
+<p>For greater accuracy, numerical methods (e.g., solving differential equations with drag) are required.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
