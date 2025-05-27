@@ -128,7 +128,7 @@ The law still holds for all planets and moons with elliptical paths, as long as 
 
 ---
 
-### ✅ Summary
+###  Summary
 
 - We derived and confirmed Kepler’s Third Law for circular orbits.
 - The law connects period and radius via gravity.
