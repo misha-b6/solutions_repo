@@ -66,6 +66,28 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#1-explanation-of-the-topic">1. Explanation of the Topic</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-mathematical-background">2. Mathematical Background</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#21-single-point-source-wave-equation">2.1 Single Point Source Wave Equation</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#22-superposition-of-multiple-waves">2.2 Superposition of Multiple Waves</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-geometry-of-the-sources">3. Geometry of the Sources</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-python-code-interference-simulation">4. Python Code: Interference Simulation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#5-analyze-the-results">5. Analyze the Results</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#6-conclusions">6. Conclusions</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#7-explanation-of-the-code">7. Explanation of the Code</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#8-explanation-of-the-solution">8. Explanation of the Solution</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,6 +194,131 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h2 id="1-explanation-of-the-topic">1. Explanation of the Topic</h2>
+<p>Interference is a wave phenomenon that occurs when two or more wavefronts overlap in space. On a water surface, this is seen as regions where wave crests reinforce or cancel one another.</p>
+<ul>
+<li><strong>Constructive Interference</strong>: when two waves meet in phase, they amplify.</li>
+<li><strong>Destructive Interference</strong>: when two waves are out of phase, they cancel.</li>
+</ul>
+<p>This principle is central in understanding wave behavior, not only in water but also in acoustics, optics, and even quantum mechanics.</p>
+<hr/>
+<h2 id="2-mathematical-background">2. Mathematical Background</h2>
+<h3 id="21-single-point-source-wave-equation">2.1 Single Point Source Wave Equation</h3>
+<p>The wave from a single point source at <span class="arithmatex">\((x_0, y_0)\)</span> is given by:</p>
+<div class="arithmatex">\[
+\eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(A\)</span> is the amplitude,
+- <span class="arithmatex">\(r = \sqrt{(x - x_0)^2 + (y - y_0)^2}\)</span> is the distance to the point,
+- <span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span> is the wave number,
+- <span class="arithmatex">\(\omega = 2\pi f\)</span> is the angular frequency,
+- <span class="arithmatex">\(\phi\)</span> is the phase offset.</p>
+<h3 id="22-superposition-of-multiple-waves">2.2 Superposition of Multiple Waves</h3>
+<p>If there are <span class="arithmatex">\(N\)</span> identical, coherent sources, the total displacement at any point is:</p>
+<div class="arithmatex">\[
+\eta_{sum}(x, y, t) = \sum_{i=1}^{N} \frac{A}{\sqrt{r_i}} \cos(k r_i - \omega t + \phi)
+\]</div>
+<p>Where <span class="arithmatex">\(r_i\)</span> is the distance from the <span class="arithmatex">\(i\)</span>-th source.</p>
+<hr/>
+<h2 id="3-geometry-of-the-sources">3. Geometry of the Sources</h2>
+<p>Sources are placed at the vertices of a regular polygon (e.g., triangle, square, hexagon), distributed uniformly on a circle of radius <span class="arithmatex">\(R\)</span>:</p>
+<div class="arithmatex">\[
+x_i = R \cos\left(\frac{2\pi i}{N}\right), \quad y_i = R \sin\left(\frac{2\pi i}{N}\right)
+\]</div>
+<hr/>
+<h2 id="4-python-code-interference-simulation">4. Python Code: Interference Simulation</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Wave parameters
+A = 1.0                     # Amplitude (m)
+wavelength = 1.0            # Wavelength (m)
+f = 1.0                     # Frequency (Hz)
+k = 2 * np.pi / wavelength  # Wave number
+w = 2 * np.pi * f           # Angular frequency
+phi = 0                     # Initial phase
+
+# Source configuration
+N = 6                       # Number of sources (polygon sides)
+R = 5.0                     # Radius of polygon
+sources = [(R * np.cos(2 * np.pi * i / N), R * np.sin(2 * np.pi * i / N)) for i in range(N)]
+
+# Grid
+x = np.linspace(-10, 10, 500)
+y = np.linspace(-10, 10, 500)
+X, Y = np.meshgrid(x, y)
+T = 0  # Time snapshot
+
+# Function for one wave
+def wave(x, y, x0, y0, A, k, w, phi, t):
+    r = np.sqrt((x - x0)**2 + (y - y0)**2)
+    r[r == 0] = 1e-6
+    return A / np.sqrt(r) * np.cos(k * r - w * t + phi)
+
+# Total wave
+eta = np.zeros_like(X)
+for x0, y0 in sources:
+    eta += wave(X, Y, x0, y0, A, k, w, phi, T)
+
+# Plot
+plt.figure(figsize=(8, 6))
+plt.contourf(X, Y, eta, levels=100, cmap='viridis')
+plt.colorbar(label='Surface displacement η (m)')
+plt.scatter(*zip(*sources), color='red', label='Sources')
+plt.title('Water Surface Interference Pattern')
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.axis('equal')
+plt.legend()
+plt.tight_layout()
+plt.show()
+</code></pre>
+<p><img alt="alt text" src="../image-3.png"/></p>
+<hr/>
+<h2 id="5-analyze-the-results">5. Analyze the Results</h2>
+<ul>
+<li><strong>Patterns</strong>: The plot shows bright and dark zones corresponding to constructive and destructive interference, respectively. The center often shows intense oscillation due to symmetrical source alignment.</li>
+<li><strong>Symmetry</strong>: Because the sources are placed symmetrically (e.g., equilateral triangle, square), the interference patterns exhibit symmetrical structures.</li>
+<li><strong>Parameter Dependence</strong>:</li>
+<li>Reducing the wavelength <span class="arithmatex">\(\lambda\)</span> increases the number of fringes (denser pattern).</li>
+<li>Changing the phase <span class="arithmatex">\(\phi\)</span> of one source distorts symmetry and shifts interference nodes.</li>
+<li>Increasing the amplitude <span class="arithmatex">\(A\)</span> intensifies the wave height without affecting the pattern geometry.</li>
+</ul>
+<hr/>
+<h2 id="6-conclusions">6. Conclusions</h2>
+<p>This simulation of wave interference on a water surface highlights the rich dynamics of wave superposition. By summing the displacements from multiple coherent sources, we observe:</p>
+<ul>
+<li><strong>Constructive interference</strong> forming crests where waves align in phase.</li>
+<li><strong>Destructive interference</strong> resulting in cancellation zones where waves are out of phase.</li>
+<li><strong>Real-world relevance</strong>: These insights apply to sound waves, light diffraction, radar systems, and ocean engineering.</li>
+</ul>
+<p>Using simple principles of circular wave propagation and numerical tools like Python, students can intuitively understand:
+- how phase, amplitude, and geometry control wave outcomes,
+- and how symmetry and coherence lead to organized patterns.</p>
+<p>This makes the task valuable both for developing computational skills and for reinforcing theoretical physics concepts.</p>
+<hr/>
+<h2 id="7-explanation-of-the-code">7. Explanation of the Code</h2>
+<ul>
+<li><strong>Parameters</strong>: The values of amplitude <span class="arithmatex">\(A\)</span>, wavelength <span class="arithmatex">\(\lambda\)</span>, frequency <span class="arithmatex">\(f\)</span>, wave number <span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span>, and angular frequency <span class="arithmatex">\(\omega = 2\pi f\)</span> are defined at the beginning.</li>
+<li><strong>Source Placement</strong>: Sources are placed symmetrically at the vertices of a regular polygon. Their coordinates are computed using trigonometry on a circle of radius <span class="arithmatex">\(R\)</span>.</li>
+<li><strong>Grid Construction</strong>: A meshgrid of <span class="arithmatex">\((x, y)\)</span> coordinates is created using <code>np.meshgrid()</code> to simulate the water surface over a region.</li>
+<li><strong>Wave Function</strong>: A function calculates wave amplitude at each point from a single source based on distance <span class="arithmatex">\(r\)</span> and applies the formula:</li>
+</ul>
+<p>$$
+  \eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
+  $$</p>
+<ul>
+<li><strong>Superposition</strong>: The contributions of all sources are summed point-wise using a loop.</li>
+<li><strong>Visualization</strong>: A 2D contour plot is generated with <code>plt.contourf()</code>, which maps wave height to color gradients. Red and blue zones highlight wave peaks and troughs, while white or neutral zones indicate destructive cancellation.</li>
+</ul>
+<hr/>
+<h2 id="8-explanation-of-the-solution">8. Explanation of the Solution</h2>
+<ul>
+<li><strong>Step 1</strong>: We chose a regular polygon (e.g., equilateral triangle) to place wave sources in a symmetric layout, which helps visualize balanced interference.</li>
+<li><strong>Step 2</strong>: We wrote the wave equation for each point source and applied the principle of superposition to calculate net displacement at each grid point.</li>
+<li><strong>Step 3</strong>: We explored the resulting interference pattern, studying how parameters like <span class="arithmatex">\(\lambda\)</span>, <span class="arithmatex">\(\phi\)</span>, and number of sources affect the structure.</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
