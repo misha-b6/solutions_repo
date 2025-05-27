@@ -58,19 +58,23 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#problem-2-escape-velocities-and-cosmic-velocities">Problem 2 – Escape Velocities and Cosmic Velocities</a>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-define-the-first-second-and-third-cosmic-velocities-with-physical-meaning">Step 1: Define the First, Second, and Third Cosmic Velocities with Physical Meaning</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-theoretical-derivation-and-equations">Step 2: Theoretical Derivation and Equations</a>
 <ul>
-<li class="toctree-l4"><a class="reference internal" href="#explanation">Explanation</a>
+<li class="toctree-l4"><a class="reference internal" href="#21-first-cosmic-velocity">2.1 First Cosmic Velocity:</a>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="#1-definitions">1. Definitions:</a>
+<li class="toctree-l4"><a class="reference internal" href="#22-second-cosmic-velocity">2.2 Second Cosmic Velocity:</a>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="#2-python-code-to-compute-and-plot-the-velocities">2. Python Code to Compute and Plot the Velocities</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#3-applications-in-space-exploration">3. Applications in Space Exploration</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a>
+<li class="toctree-l4"><a class="reference internal" href="#23-third-cosmic-velocity-escape-from-the-suns-gravity">2.3 Third Cosmic Velocity – Escape from the Sun's Gravity</a>
 </li>
 </ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-python-code-to-compute-and-plot-the-velocities">Step 3: Python Code to Compute and Plot the Velocities</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-applications-in-space-exploration">3. Applications in Space Exploration</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a>
 </li>
 </ul>
 </li>
@@ -186,26 +190,45 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
-<h2 id="problem-2-escape-velocities-and-cosmic-velocities">Problem 2 – Escape Velocities and Cosmic Velocities</h2>
-<h3 id="explanation">Explanation</h3>
-<h3 id="1-definitions">1. Definitions:</h3>
+<h3 id="step-1-define-the-first-second-and-third-cosmic-velocities-with-physical-meaning">Step 1: Define the First, Second, and Third Cosmic Velocities with Physical Meaning</h3>
 <ul>
-<li>
-<p><strong>First Cosmic Velocity (<span class="arithmatex">\(v_1\)</span>)</strong> – orbital velocity: the speed needed to maintain a circular orbit near the surface.
-  <span class="arithmatex">\(<span class="arithmatex">\(v_1 = \sqrt{\frac{G M}{R}}\)</span>\)</span></p>
-</li>
-<li>
-<p><strong>Second Cosmic Velocity (<span class="arithmatex">\(v_2\)</span>)</strong> – escape velocity: the speed required to break free from a celestial body's gravitational field without further propulsion.
-  <span class="arithmatex">\(<span class="arithmatex">\(v_2 = \sqrt{\frac{2 G M}{R}}\)</span>\)</span></p>
-</li>
-<li>
-<p><strong>Third Cosmic Velocity (<span class="arithmatex">\(v_3\)</span>)</strong> – interstellar escape velocity: the minimum speed needed to escape the gravity of an entire star system (e.g., Solar System).</p>
-</li>
+<li><strong>First Cosmic Velocity (Orbital Velocity)</strong>: This is the minimum speed required for an object to stay in a stable circular orbit near the surface of a celestial body. It occurs when the gravitational pull provides the exact centripetal force necessary to maintain that orbit:</li>
 </ul>
-<p>For approximation:
-  <span class="arithmatex">\(<span class="arithmatex">\(v_3 \approx \sqrt{v_{Earth-orbit}^2 + v_{escape-Sun}^2}\)</span>\)</span></p>
+<p><span class="arithmatex">\(<span class="arithmatex">\(v_1 = \sqrt{\frac{G M}{R}}\)</span>\)</span></p>
+<ul>
+<li><strong>Second Cosmic Velocity (Escape Velocity)</strong>: The second cosmic velocity represents the threshold speed to break free from a body's gravitational field entirely. It's derived from the conservation of energy, ensuring that an object's total mechanical energy reaches zero at an infinite distance:</li>
+</ul>
+<p><span class="arithmatex">\(<span class="arithmatex">\(v_2 = \sqrt{\frac{2 G M}{R}}\)</span>\)</span></p>
+<ul>
+<li><strong>Third Cosmic Velocity (Interstellar Escape Velocity)</strong>: To exit an entire star system (like the Solar System), an object must overcome not just Earth's gravity, but also the gravitational influence of the Sun. This velocity is more complex, as it involves both escape from the planet and additional speed to escape from heliocentric orbit.</li>
+</ul>
 <hr/>
-<h3 id="2-python-code-to-compute-and-plot-the-velocities">2. Python Code to Compute and Plot the Velocities</h3>
+<h3 id="step-2-theoretical-derivation-and-equations">Step 2: Theoretical Derivation and Equations</h3>
+<h4 id="21-first-cosmic-velocity">2.1 First Cosmic Velocity:</h4>
+<p>Set gravitational force equal to centripetal force:</p>
+<div class="arithmatex">\[\frac{G M m}{R^2} = m \frac{v^2}{R} \Rightarrow v_1 = \sqrt{\frac{G M}{R}}\]</div>
+<h4 id="22-second-cosmic-velocity">2.2 Second Cosmic Velocity:</h4>
+<p>Use energy conservation principle:</p>
+<div class="arithmatex">\[\frac{1}{2}mv_2^2 = \frac{G M m}{R} \Rightarrow v_2 = \sqrt{\frac{2 G M}{R}}\]</div>
+<h4 id="23-third-cosmic-velocity-escape-from-the-suns-gravity">2.3 Third Cosmic Velocity – Escape from the Sun's Gravity</h4>
+<p>The third cosmic velocity is defined as the speed required to escape the Sun's gravitational field starting from Earth’s orbit. Unlike the second velocity, it considers the object already in motion due to Earth's orbital speed.</p>
+<p>We define:
+- <span class="arithmatex">\(M_{\text{Sun}}\)</span>: mass of the Sun
+- <span class="arithmatex">\(r_{\text{Earth-Sun}}\)</span>: average distance between the Earth and Sun (≈ 1 AU)</p>
+<p><strong>Escape Velocity from Sun at Earth's Orbit</strong>:</p>
+<div class="arithmatex">\[v_{\text{esc,Sun}} = \sqrt{\frac{2 G M_{\text{Sun}}}{r_{\text{Earth-Sun}}}}\]</div>
+<p><strong>Earth's Orbital Speed Around the Sun</strong>:</p>
+<div class="arithmatex">\[v_{\text{Earth}} = \sqrt{\frac{G M_{\text{Sun}}}{r_{\text{Earth-Sun}}}}\]</div>
+<p><strong>Third Cosmic Velocity</strong>:</p>
+<p>To break free from the Solar System, the spacecraft must gain enough speed beyond what Earth already provides:</p>
+<div class="arithmatex">\[v_3 = v_{\text{esc,Sun}} - v_{\text{Earth}}\]</div>
+<p>Substituting the expressions:</p>
+<div class="arithmatex">\[v_3 = \sqrt{\frac{2 G M_{\text{Sun}}}{r_{\text{Earth-Sun}}}} - \sqrt{\frac{G M_{\text{Sun}}}{r_{\text{Earth-Sun}}}}\]</div>
+<p>Factoring out the common term:</p>
+<div class="arithmatex">\[v_3 = \sqrt{\frac{G M_{\text{Sun}}}{r_{\text{Earth-Sun}}}} (\sqrt{2} - 1)\]</div>
+<p>This shows that the third cosmic velocity is a fraction <span class="arithmatex">\((\sqrt{2} - 1 \approx 0.414)\)</span> of the Sun’s escape velocity at Earth's orbital distance. This simplification is useful for approximating interstellar mission speeds without requiring complex simulations.</p>
+<hr/>
+<h3 id="step-3-python-code-to-compute-and-plot-the-velocities">Step 3: Python Code to Compute and Plot the Velocities</h3>
 <pre><code class="language-python">import numpy as np
 import matplotlib.pyplot as plt
 
@@ -254,6 +277,15 @@ plt.show()
 <li><strong><span class="arithmatex">\(v_1\)</span></strong> – Used to place satellites into low Earth orbit (LEO), GPS, and communication satellites.</li>
 <li><strong><span class="arithmatex">\(v_2\)</span></strong> – Required for missions to the Moon, Mars, and beyond.</li>
 <li><strong><span class="arithmatex">\(v_3\)</span></strong> – Required to leave the Solar System; achieved by spacecraft like Voyager 1 and 2.</li>
+<li>
+<p><strong>First Cosmic Velocity</strong>: Essential for satellite missions. Near Earth’s surface, <span class="arithmatex">\(v_1 \approx 7.9\)</span> km/s, but satellites in LEO (e.g., at 400 km altitude) orbit at slightly lower speeds (around 7.6 km/s). This velocity is targeted during launches like those delivering payloads to the ISS.</p>
+</li>
+<li>
+<p><strong>Second Cosmic Velocity</strong>: Required for planetary escape. For Earth, <span class="arithmatex">\(v_2 \approx 11.2\)</span> km/s. Spacecraft such as those used in the Apollo missions had to exceed this threshold to reach the Moon. On Jupiter, escape velocity reaches 59.5 km/s, demanding enormous propulsion capacity (e.g., Juno mission).</p>
+</li>
+<li>
+<p><strong>Third Cosmic Velocity</strong>: Enables interstellar escape. For Earth, <span class="arithmatex">\(v_3 \approx 16.7\)</span> km/s relative to the heliocentric frame. Voyager 1 gained this velocity through gravity assists and now travels ~17 km/s away from the Sun. These values influence fuel budgets, trajectory design, and feasibility of interstellar probes.</p>
+</li>
 </ul>
 <hr/>
 <h3 id="summary">Summary</h3>
