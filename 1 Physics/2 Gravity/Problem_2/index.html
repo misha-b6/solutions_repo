@@ -58,6 +58,20 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#problem-2-escape-velocities-and-cosmic-velocities">Problem 2 – Escape Velocities and Cosmic Velocities</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#explanation">Explanation</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#1-definitions">1. Definitions:</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#2-python-code-to-compute-and-plot-the-velocities">2. Python Code to Compute and Plot the Velocities</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#3-applications-in-space-exploration">3. Applications in Space Exploration</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_3/">Problem 3</a>
@@ -172,6 +186,82 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h2 id="problem-2-escape-velocities-and-cosmic-velocities">Problem 2 – Escape Velocities and Cosmic Velocities</h2>
+<h3 id="explanation">Explanation</h3>
+<h3 id="1-definitions">1. Definitions:</h3>
+<ul>
+<li>
+<p><strong>First Cosmic Velocity (<span class="arithmatex">\(v_1\)</span>)</strong> – orbital velocity: the speed needed to maintain a circular orbit near the surface.
+  <span class="arithmatex">\(<span class="arithmatex">\(v_1 = \sqrt{\frac{G M}{R}}\)</span>\)</span></p>
+</li>
+<li>
+<p><strong>Second Cosmic Velocity (<span class="arithmatex">\(v_2\)</span>)</strong> – escape velocity: the speed required to break free from a celestial body's gravitational field without further propulsion.
+  <span class="arithmatex">\(<span class="arithmatex">\(v_2 = \sqrt{\frac{2 G M}{R}}\)</span>\)</span></p>
+</li>
+<li>
+<p><strong>Third Cosmic Velocity (<span class="arithmatex">\(v_3\)</span>)</strong> – interstellar escape velocity: the minimum speed needed to escape the gravity of an entire star system (e.g., Solar System).</p>
+</li>
+</ul>
+<p>For approximation:
+  <span class="arithmatex">\(<span class="arithmatex">\(v_3 \approx \sqrt{v_{Earth-orbit}^2 + v_{escape-Sun}^2}\)</span>\)</span></p>
+<hr/>
+<h3 id="2-python-code-to-compute-and-plot-the-velocities">2. Python Code to Compute and Plot the Velocities</h3>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+G = 6.67430e-11  # gravitational constant in m^3 kg^-1 s^-2
+
+# Planetary data: name, radius (m), mass (kg)
+bodies = {
+    'Earth':    {'R': 6.371e6,  'M': 5.972e24},
+    'Mars':     {'R': 3.390e6,  'M': 6.417e23},
+    'Jupiter':  {'R': 6.9911e7, 'M': 1.898e27}
+}
+
+# Prepare results
+names = []
+v1 = []  # Orbital velocity
+v2 = []  # Escape velocity
+
+for body, data in bodies.items():
+    R = data['R']
+    M = data['M']
+    names.append(body)
+    v1.append(np.sqrt(G * M / R))
+    v2.append(np.sqrt(2 * G * M / R))
+
+# Plotting
+x = np.arange(len(names))
+width = 0.35
+
+plt.figure(figsize=(10, 6))
+plt.bar(x - width/2, v1, width, label='First Cosmic Velocity $v_1$', color='skyblue')
+plt.bar(x + width/2, v2, width, label='Second Cosmic Velocity $v_2$', color='orange')
+
+plt.xticks(x, names)
+plt.ylabel('Velocity (m/s)')
+plt.title('Cosmic Velocities for Celestial Bodies')
+plt.legend()
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
+</code></pre>
+<p><img alt="alt text" src="../image-1.png"/></p>
+<hr/>
+<h3 id="3-applications-in-space-exploration">3. Applications in Space Exploration</h3>
+<ul>
+<li><strong><span class="arithmatex">\(v_1\)</span></strong> – Used to place satellites into low Earth orbit (LEO), GPS, and communication satellites.</li>
+<li><strong><span class="arithmatex">\(v_2\)</span></strong> – Required for missions to the Moon, Mars, and beyond.</li>
+<li><strong><span class="arithmatex">\(v_3\)</span></strong> – Required to leave the Solar System; achieved by spacecraft like Voyager 1 and 2.</li>
+</ul>
+<hr/>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Derived and computed <span class="arithmatex">\(v_1\)</span>, <span class="arithmatex">\(v_2\)</span>, and discussed <span class="arithmatex">\(v_3\)</span></li>
+<li>Applied to Earth, Mars, and Jupiter</li>
+<li>Visualized their significance for space missions and satellite deployment</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
