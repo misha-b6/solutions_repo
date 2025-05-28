@@ -78,6 +78,24 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#1-introduction">1. Introduction</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-theoretical-foundation">2. Theoretical Foundation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-step-by-step-algorithm-description">3. Step-by-Step Algorithm Description</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-input-and-graph-construction">Step 1: Input and Graph Construction</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-identify-reductions">Step 2: Identify Reductions</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-output-final-resistance">Step 3: Output Final Resistance</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-python-implementation">4. Python Implementation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_1"></a>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,6 +190,129 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>In this problem, we explore how to compute the <strong>equivalent resistance</strong> of an electrical network using <strong>graph theory</strong>. This approach is powerful for complex circuits where standard series-parallel reduction becomes inefficient or infeasible. </p>
+<p>Each resistor is treated as a <strong>weighted edge</strong> between two nodes, with the resistance as the weight. We then simplify the graph step-by-step until only two terminal nodes remain, connected by a single effective resistance.</p>
+<hr/>
+<h2 id="2-theoretical-foundation">2. Theoretical Foundation</h2>
+<p>We use these two fundamental rules:</p>
+<ul>
+<li><strong>Series combination</strong>: For resistors <span class="arithmatex">\(R_1\)</span> and <span class="arithmatex">\(R_2\)</span> in series:</li>
+</ul>
+<p><span class="arithmatex">\(<span class="arithmatex">\(R_{eq} = R_1 + R_2\)</span>\)</span></p>
+<ul>
+<li><strong>Parallel combination</strong>: For resistors <span class="arithmatex">\(R_1\)</span> and <span class="arithmatex">\(R_2\)</span> in parallel:</li>
+</ul>
+<p><span class="arithmatex">\(<span class="arithmatex">\(\frac{1}{R_{eq}} = \frac{1}{R_1} + \frac{1}{R_2}\)</span>\)</span></p>
+<p>In a graph context:</p>
+<ul>
+<li><strong>Nodes</strong> <span class="arithmatex">\(\rightarrow\)</span> circuit junctions</li>
+<li><strong>Edges</strong> <span class="arithmatex">\(\rightarrow\)</span> resistors with weights</li>
+<li><strong>Series</strong> <span class="arithmatex">\(\rightarrow\)</span> degree-2 nodes</li>
+<li><strong>Parallel</strong> <span class="arithmatex">\(\rightarrow\)</span> multiple edges between two nodes</li>
+</ul>
+<hr/>
+<h2 id="3-step-by-step-algorithm-description">3. Step-by-Step Algorithm Description</h2>
+<h3 id="step-1-input-and-graph-construction">Step 1: Input and Graph Construction</h3>
+<ul>
+<li>Represent each resistor as an edge: <code>(node1, node2, resistance)</code></li>
+<li>Store the edges in a graph data structure.</li>
+</ul>
+<h3 id="step-2-identify-reductions">Step 2: Identify Reductions</h3>
+<ul>
+<li>While there are more than 2 nodes:</li>
+<li>
+<p>Identify all <strong>parallel edges</strong> and replace them with a single edge using:</p>
+<div class="arithmatex">\[R_{eq}^{parallel} = \left(\sum_{i=1}^{n} \frac{1}{R_i} \right)^{-1}\]</div>
+</li>
+<li>
+<p>Identify <strong>series nodes</strong> (degree = 2) not being terminals and merge edges:</p>
+<div class="arithmatex">\[R_{eq}^{series} = R_1 + R_2\]</div>
+</li>
+</ul>
+<h3 id="step-3-output-final-resistance">Step 3: Output Final Resistance</h3>
+<ul>
+<li>When only two nodes remain (terminals), return the single edge's weight.</li>
+</ul>
+<hr/>
+<h2 id="4-python-implementation">4. Python Implementation</h2>
+<pre><code class="language-python">import networkx as nx
+import matplotlib.pyplot as plt
+
+def series_resistance(R1, R2):
+    return R1 + R2
+
+def parallel_resistance(R1, R2):
+    return (R1 * R2) / (R1 + R2)
+
+R1 = 4
+R2 = 6
+R3 = 3
+R4 = 2
+
+G = nx.Graph()
+G.add_edge("A", "B", weight=R1)
+G.add_edge("B", "D", weight=R2)
+G.add_edge("A", "C", weight=R3)
+G.add_edge("C", "D", weight=R4)
+
+pos = {
+    "A": (0, 1),
+    "B": (2, 1),
+    "C": (0, 0),
+    "D": (2, 0)
+}
+labels = nx.get_edge_attributes(G, "weight")
+
+plt.figure(figsize=(6, 4))
+nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=700, font_size=10)
+nx.draw_networkx_edge_labels(G, pos, edge_labels={k: f"{v}Ω" for k, v in labels.items()})
+plt.title("Graph Representation of a Resistor Network")
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="_1"><img alt="alt text" src="../image.png"/></h2>
+<h1 id="5-examples-test-on-examples">5. Examples. Test on Examples</h1>
+<h1 id="series-circuit">Series Circuit</h1>
+<p>R1 = 2
+R2 = 3
+R_series = R1 + R2
+print("Series Circuit:")
+print(f"R1 = {R1} Ω, R2 = {R2} Ω")
+print(f"Equivalent Resistance = {R_series} Ω\n")</p>
+<h1 id="parallel-circuit">Parallel Circuit</h1>
+<p>R1 = 2
+R2 = 3
+R_parallel = (R1 * R2) / (R1 + R2)
+print("Parallel Circuit:")
+print(f"R1 = {R1} Ω, R2 = {R2} Ω")
+print(f"Equivalent Resistance = {R_parallel:.2f} Ω\n")</p>
+<h1 id="nested-circuit-r1-in-series-with-r2-r3">Nested Circuit: R1 in series with (R2 || R3)</h1>
+<p>R1 = 1
+R2 = 2
+R3 = 2
+R_parallel = (R2 * R3) / (R2 + R3)
+R_nested = R1 + R_parallel
+print("Nested Circuit:")
+print(f"R1 = {R1} Ω, R2 = {R2} Ω, R3 = {R3} Ω")
+print(f"R2 || R3 = {R_parallel:.2f} Ω")
+print(f"Equivalent Resistance = {R_nested:.2f} Ω")</p>
+<h1 id="6-analysis-with-equations">6: Analysis (with equations)</h1>
+<h1 id="series">Series:</h1>
+<h1 id="r_eq-r_1-r_2-2-3-5"><span class="arithmatex">\(<span class="arithmatex">\(R_{eq} = R_1 + R_2 = 2 + 3 = 5\)</span>\)</span></h1>
+<h1 id="parallel">Parallel:</h1>
+<h1 id="r_eq-fracr_1-cdot-r_2r_1-r_2-frac2-cdot-32-3-12"><span class="arithmatex">\(<span class="arithmatex">\(R_{eq} = \frac{R_1 \cdot R_2}{R_1 + R_2} = \frac{2 \cdot 3}{2 + 3} = 1.2\)</span>\)</span></h1>
+<h1 id="nested">Nested:</h1>
+<h1 id="r_1-1quad-r_2-2quad-r_3-2"><span class="arithmatex">\(<span class="arithmatex">\(R_1 = 1,\quad R_2 = 2,\quad R_3 = 2\)</span>\)</span></h1>
+<h1 id="r_23-frac2-cdot-22-2-1quad-r_nested-r_1-r_23-1-1-2"><span class="arithmatex">\(<span class="arithmatex">\(R_{23} = \frac{2 \cdot 2}{2 + 2} = 1,\quad R_{nested} = R_1 + R_{23} = 1 + 1 = 2\)</span>\)</span></h1>
+<h2 id="7-performance-and-improvements">7. Performance and Improvements</h2>
+<ul>
+<li><strong>Time Complexity</strong>: Worst-case <span class="arithmatex">\(O(n^2)\)</span> due to repeated edge scanning.</li>
+<li><strong>Improvement</strong>: Use a union-find data structure or Kirchhoff’s laws with matrix methods for larger graphs.</li>
+</ul>
+<hr/>
+<h2 id="8-conclusion">8. Conclusion</h2>
+<p>This method provides a reliable and scalable way to compute equivalent resistance in complex electrical networks. By reducing the network iteratively via graph transformations, even nested series-parallel circuits become manageable, enabling automation and deeper understanding through the lens of graph theory.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
