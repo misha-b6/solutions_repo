@@ -72,6 +72,14 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#1-motivation">1. Motivation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-goal">2. Goal</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-theoretical-background">3. Theoretical Background</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-scenario-configuration">4. Scenario Configuration</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,6 +180,134 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h2 id="1-motivation">1. Motivation</h2>
+<p>The Lorentz force, expressed as:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}\)</span>\)</span><br/>
+governs the motion of charged particles in electric and magnetic fields. It plays a crucial role in many areas of physics, such as particle accelerators, plasma physics, astrophysics (e.g., auroras), and space propulsion systems. By understanding and simulating this force, we gain insight into the spiral or helical paths that charged particles follow under the influence of electromagnetic fields.</p>
+<hr/>
+<h2 id="2-goal">2. Goal</h2>
+<p>Simulate the motion of a charged particle in the presence of constant electric and magnetic fields and analyze its trajectory based on the Lorentz force.</p>
+<hr/>
+<h2 id="3-theoretical-background">3. Theoretical Background</h2>
+<p>Newton’s second law applied to a charged particle gives:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(\vec{F} = m\vec{a} = m\frac{d\vec{v}}{dt} = q\vec{E} + q(\vec{v} \times \vec{B})\)</span>\)</span></p>
+<p>Rewriting:
+<span class="arithmatex">\(<span class="arithmatex">\(\frac{d\vec{v}}{dt} = \frac{q}{m}\vec{E} + \frac{q}{m}(\vec{v} \times \vec{B})\)</span>\)</span><br/>
+<span class="arithmatex">\(<span class="arithmatex">\(\frac{d\vec{r}}{dt} = \vec{v}\)</span>\)</span></p>
+<p>Where:<br/>
+- <span class="arithmatex">\(\vec{v} = (v_x, v_y, v_z)\)</span> is the velocity vector<br/>
+- <span class="arithmatex">\(\vec{r} = (x, y, z)\)</span> is the position vector<br/>
+- <span class="arithmatex">\(q\)</span> is the charge (e.g., proton <span class="arithmatex">\(1.602 \times 10^{-19}\)</span> C)<br/>
+- <span class="arithmatex">\(m\)</span> is the mass (e.g., proton <span class="arithmatex">\(1.673 \times 10^{-27}\)</span> kg)<br/>
+- <span class="arithmatex">\(\vec{E}\)</span> is the electric field (V/m)<br/>
+- <span class="arithmatex">\(\vec{B}\)</span> is the magnetic field (T)</p>
+<hr/>
+<h2 id="4-scenario-configuration">4. Scenario Configuration</h2>
+<p>Let’s consider:<br/>
+- <span class="arithmatex">\(\vec{E} = (0, 1000, 0)\)</span> V/m (along the y-axis)<br/>
+- <span class="arithmatex">\(\vec{B} = (0, 0, 0.1)\)</span> T (along the z-axis)<br/>
+- Initial velocity: <span class="arithmatex">\(\vec{v}_0 = (1 \times 10^5, 0, 0)\)</span> m/s<br/>
+- Time interval: <span class="arithmatex">\(t \in [0, 5 \times 10^{-5}]\)</span> s</p>
+<hr/>
+<h1 id="step-by-step-solution-simulating-the-effects-of-the-lorentz-force">Step-by-Step Solution: Simulating the Effects of the Lorentz Force</h1>
+<h2 id="step-1-identify-applications-of-the-lorentz-force">Step 1: Identify Applications of the Lorentz Force</h2>
+<p>The Lorentz force is critical in:</p>
+<ul>
+<li><strong>Particle Accelerators</strong>: In cyclotrons, the magnetic field causes particles to move in circular paths while the electric field accelerates them.</li>
+<li><strong>Astrophysics</strong>: Charged particles from the solar wind spiral along Earth’s magnetic field lines, creating auroras.</li>
+<li><strong>Plasma Confinement</strong>: In fusion reactors, magnetic fields confine plasma by forcing charged particles into helical paths.</li>
+</ul>
+<hr/>
+<h2 id="step-2-simulate-particle-motion">Step 2: Simulate Particle Motion</h2>
+<p>We’ll simulate the motion of a charged particle in combined electric and magnetic fields using Newton’s second law:</p>
+<p>Newton's Second Law with Lorentz Force:
+$$
+\vec{F} = m\vec{a} = m\frac{d\vec{v}}{dt} = q\vec{E} + q(\vec{v} \times \vec{B})
+$$</p>
+<p>Divide both sides by the particle's mass <span class="arithmatex">\(m\)</span>:
+$$
+\frac{d\vec{v}}{dt} = \frac{q}{m}\vec{E} + \frac{q}{m}(\vec{v} \times \vec{B})
+$$</p>
+<p>Update the particle’s position over time as:
+$$
+\frac{d\vec{r}}{dt} = \vec{v}
+$$</p>
+<p>Where:
+- <span class="arithmatex">\(\vec{r} = (x, y, z)\)</span> is the position vector
+- <span class="arithmatex">\(\vec{v} = (v_x, v_y, v_z)\)</span> is the velocity vector
+- <span class="arithmatex">\(q\)</span> is the particle charge
+- <span class="arithmatex">\(m\)</span> is the particle mass
+- <span class="arithmatex">\(\vec{E}\)</span> is the electric field
+- <span class="arithmatex">\(\vec{B}\)</span> is the magnetic field</p>
+<h2 id="these-equations-form-the-system-of-differential-equations-we-will-solve-numerically-to-trace-the-particles-motion-under-electromagnetic-forces">These equations form the system of differential equations we will solve numerically to trace the particle’s motion under electromagnetic forces.</h2>
+<h2 id="5-python-simulation">5. Python Simulation</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from mpl_toolkits.mplot3d import Axes3D
+
+# Constants
+q = 1.602e-19  # Charge of proton (C)
+m = 1.673e-27  # Mass of proton (kg)
+E = np.array([0, 1000, 0])  # Electric field (V/m)
+B = np.array([0, 0, 0.1])   # Magnetic field (T)
+
+# Lorentz force system
+def lorentz_force(t, y):
+    r = y[:3]
+    v = y[3:]
+    dvdt = (q/m) * (E + np.cross(v, B))
+    drdt = v
+    return np.concatenate((drdt, dvdt))
+
+# Initial conditions: [x, y, z, vx, vy, vz]
+y0 = np.array([0, 0, 0, 1e5, 0, 0])
+
+# Time span
+t_span = (0, 5e-5)
+t_eval = np.linspace(*t_span, 1000)
+
+# Solve
+sol = solve_ivp(lorentz_force, t_span, y0, t_eval=t_eval)
+
+# Plotting
+fig = plt.figure(figsize=(10, 6))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot(sol.y[0], sol.y[1], sol.y[2], label='Particle Trajectory')
+ax.set_xlabel('x (m)')
+ax.set_ylabel('y (m)')
+ax.set_zlabel('z (m)')
+ax.set_title('Particle Trajectory under Lorentz Force')
+ax.legend()
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="_1"><img alt="alt text" src="../image-1.png"/></h2>
+<h2 id="6-parameter-analysis">6. Parameter Analysis</h2>
+<p><strong>Larmor Radius</strong><br/>
+The radius of circular motion under magnetic field:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(r_L = \frac{mv_\perp}{|q|B}\)</span>\)</span><br/>
+For our case:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(v_\perp = v_{x0} = 1 \times 10^5 \, \text{m/s}\)</span>\)</span><br/>
+<span class="arithmatex">\(<span class="arithmatex">\(r_L = \frac{(1.673 \times 10^{-27})(1 \times 10^5)}{(1.602 \times 10^{-19})(0.1)} \approx 0.01 \, \text{m}\)</span>\)</span></p>
+<p><strong>Drift Velocity</strong><br/>
+The drift due to <span class="arithmatex">\(\vec{E} \times \vec{B}\)</span>:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(v_{drift} = \frac{|\vec{E}|}{|\vec{B}|} = \frac{1000}{0.1} = 10000 \, \text{m/s} \quad \text{(along x-axis)}\)</span>\)</span></p>
+<hr/>
+<h2 id="7-results-and-observations">7. Results and Observations</h2>
+<ul>
+<li>The particle shows a <strong>spiral motion</strong> due to the magnetic field.</li>
+<li>The center of the spiral moves due to the <span class="arithmatex">\(\vec{E} \times \vec{B}\)</span> drift.</li>
+<li>The <strong>Larmor radius</strong> matches the expected value from theoretical calculations.</li>
+<li>The trajectory confirms circular motion plus uniform drift — matching physical predictions.</li>
+</ul>
+<hr/>
+<h2 id="8-conclusion">8. Conclusion</h2>
+<p>This simulation illustrates the fundamental role of the Lorentz force in charged particle dynamics. The spiral trajectory and lateral drift observed in the plots align with predictions from theory. These effects are central to technologies such as:
+- Cyclotrons and synchrotrons in particle physics
+- Magnetic confinement in fusion reactors
+- Auroras and space weather phenomena</p>
+<p>The Python code offers a flexible model to explore parameter changes and better understand electromagnetic forces in real systems.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
