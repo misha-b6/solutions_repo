@@ -84,6 +84,30 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#step-by-step-solution-exploring-the-central-limit-theorem-through-simulations">Step-by-Step Solution: Exploring the Central Limit Theorem through Simulations</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-1-understanding-the-central-limit-theorem-clt">Step 1: Understanding the Central Limit Theorem (CLT)</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-2-simulated-populations">Step 2: Simulated Populations</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-3-simulating-and-sampling">Step 3: Simulating and Sampling</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-4-graphical-simulation">Step 4: Graphical Simulation</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_1"></a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-5-explanation-of-the-graphs">Step 5: Explanation of the Graphs</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-6-interpretation-and-practical-value">Step 6: Interpretation and Practical Value</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-7-real-life-applications">Step 7: Real-Life Applications</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#step-8-conclusion">Step 8: Conclusion</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_2/">Problem 2</a>
@@ -172,6 +196,113 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h2 id="step-by-step-solution-exploring-the-central-limit-theorem-through-simulations">Step-by-Step Solution: Exploring the Central Limit Theorem through Simulations</h2>
+<h3 id="step-1-understanding-the-central-limit-theorem-clt">Step 1: Understanding the Central Limit Theorem (CLT)</h3>
+<p>The Central Limit Theorem (CLT) is a fundamental concept in statistics. It describes the behavior of the <strong>sample mean</strong> of a population as the sample size increases. According to the CLT, the distribution of sample means tends to become approximately normal even if the original population distribution is not normal — <strong>provided</strong> the sample size is sufficiently large.</p>
+<p>Mathematically, if we draw samples of size <span class="arithmatex">\(n\)</span> from a population with mean <span class="arithmatex">\(\mu\)</span> and standard deviation <span class="arithmatex">\(\sigma\)</span>, then the sampling distribution of the mean <span class="arithmatex">\(\bar{X}\)</span> is approximately:</p>
+<div class="arithmatex">\[
+\bar{X} \sim N\left(\mu, \frac{\sigma}{\sqrt{n}}\right)
+\]</div>
+<p>This approximation becomes more accurate as <span class="arithmatex">\(n\)</span> increases.</p>
+<hr/>
+<h3 id="step-2-simulated-populations">Step 2: Simulated Populations</h3>
+<p>To observe the Central Limit Theorem in practice, we consider three types of populations:</p>
+<ul>
+<li><strong>Uniform Distribution</strong>: A flat distribution where all values are equally likely within the range [0, 1].  </li>
+<li>PDF:<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(f(x) = 1 \quad \text{for } 0 \le x \le 1\)</span>\)</span> </li>
+<li>Mean: <span class="arithmatex">\(\mu = \frac{0 + 1}{2} = 0.5\)</span> </li>
+<li>
+<p>Std Dev: <span class="arithmatex">\(\sigma = \frac{1}{\sqrt{12}} \approx 0.2887\)</span></p>
+</li>
+<li>
+<p><strong>Exponential Distribution</strong>: A distribution commonly used to model time between events.  </p>
+</li>
+<li>PDF (with <span class="arithmatex">\(\lambda = 1\)</span>):<br/>
+<span class="arithmatex">\(<span class="arithmatex">\(f(x) = \lambda e^{-\lambda x} \quad \text{for } x \ge 0\)</span>\)</span> </li>
+<li>Mean: <span class="arithmatex">\(\mu = \frac{1}{\lambda} = 1\)</span> </li>
+<li>
+<p>Std Dev: <span class="arithmatex">\(\sigma = \frac{1}{\lambda} = 1\)</span></p>
+</li>
+<li>
+<p><strong>Binomial Distribution</strong>: A discrete distribution that models the number of successes in fixed trials.  </p>
+</li>
+<li>Mean: <span class="arithmatex">\(\mu = np\)</span> </li>
+<li>Std Dev: <span class="arithmatex">\(\sigma = \sqrt{np(1-p)}\)</span></li>
+</ul>
+<hr/>
+<h3 id="step-3-simulating-and-sampling">Step 3: Simulating and Sampling</h3>
+<p>We take repeated random samples of sizes <span class="arithmatex">\(n = 5, 10, 30, 50\)</span> from each distribution and calculate their means. Repeating this 1000 times gives us a <strong>sampling distribution of the mean</strong>. We then visualize how it converges to a normal shape.</p>
+<hr/>
+<h3 id="step-4-graphical-simulation">Step 4: Graphical Simulation</h3>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Simulation Parameters
+population_size = 10000
+num_samples = 1000
+sample_sizes = [5, 10, 30, 50]
+
+# Uniform and Exponential Populations
+uniform_pop = np.random.uniform(0, 1, population_size)
+expon_pop = np.random.exponential(scale=1, size=population_size)
+
+# Setup subplots: 2 columns x 4 rows
+fig, axs = plt.subplots(4, 2, figsize=(12, 16))
+plt.subplots_adjust(hspace=0.5)
+color = '#4A90E2'
+
+# Sampling and plotting
+distributions = [('Uniform', uniform_pop), ('Exponential', expon_pop)]
+
+for col, (dist_name, pop_data) in enumerate(distributions):
+    for row, n in enumerate(sample_sizes):
+        means = [np.mean(np.random.choice(pop_data, size=n)) for _ in range(num_samples)]
+        ax = axs[row, col]
+        sns.histplot(means, kde=True, stat="density", bins=30, color=color, ax=ax)
+        ax.set_title(f"{dist_name}, n = {n}")
+        ax.set_xlabel("Sample Mean")
+        ax.set_ylabel("Density")
+        ax.legend([f"n = {n}"])
+
+plt.suptitle("Sampling Distributions of Sample Means", fontsize=16)
+plt.tight_layout(rect=[0, 0, 1, 0.97])
+plt.show()
+</code></pre>
+<h2 id="_1"><img alt="alt text" src="../image-1.png"/></h2>
+<h3 id="step-5-explanation-of-the-graphs">Step 5: Explanation of the Graphs</h3>
+<p>Each subplot shows how the distribution of sample means behaves for a given sample size <span class="arithmatex">\(n\)</span>. Here's what we observe:</p>
+<ul>
+<li><strong>Uniform Distribution</strong>:</li>
+<li>For small <span class="arithmatex">\(n\)</span>, the sampling distribution is still somewhat uniform.</li>
+<li>
+<p>As <span class="arithmatex">\(n\)</span> increases (e.g., <span class="arithmatex">\(n=50\)</span>), it becomes bell-shaped, approaching normality.</p>
+</li>
+<li>
+<p><strong>Exponential Distribution</strong>:</p>
+</li>
+<li>Originally very skewed, but the sample means become more symmetric with larger <span class="arithmatex">\(n\)</span>.</li>
+<li>Convergence to normal is slower compared to the uniform distribution due to higher variance.</li>
+</ul>
+<p>This visual transformation demonstrates the <strong>power of the Central Limit Theorem</strong> — normality emerges even from non-normal populations.</p>
+<hr/>
+<h3 id="step-6-interpretation-and-practical-value">Step 6: Interpretation and Practical Value</h3>
+<ul>
+<li><strong>Effect of Sample Size</strong>: Larger samples produce smoother, more normal-looking sample mean distributions.</li>
+<li><strong>Population Shape Matters Less</strong>: Even if the original population is skewed, the sampling mean becomes normal.</li>
+<li><strong>Variance Impact</strong>: Populations with higher variance converge more slowly to normality.</li>
+</ul>
+<hr/>
+<h3 id="step-7-real-life-applications">Step 7: Real-Life Applications</h3>
+<ul>
+<li><strong>Estimation</strong>: CLT justifies estimating population parameters (like the mean) from samples.</li>
+<li><strong>Manufacturing</strong>: Quality control uses CLT to ensure parts meet tolerances based on sample means.</li>
+<li><strong>Finance</strong>: CLT explains why returns often approximate normal distributions in models.</li>
+</ul>
+<hr/>
+<h3 id="step-8-conclusion">Step 8: Conclusion</h3>
+<p>Through this simulation, we confirmed that the <strong>Central Limit Theorem</strong> holds across different distributions and sample sizes. As the number of samples grows, the <strong>sampling distribution of the mean</strong> consistently becomes more <strong>normal</strong>, regardless of whether the population is <strong>uniform</strong>, <strong>exponential</strong>, or <strong>binomial</strong>. This makes the CLT one of the most powerful tools in all of statistics.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
