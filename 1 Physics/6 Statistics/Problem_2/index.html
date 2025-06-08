@@ -86,6 +86,42 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#part-1-estimating-pi-using-the-circle-method">Part 1: Estimating \(\pi\) Using the Circle Method</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-theoretical-foundation">1. Theoretical Foundation</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#part-2-estimating-pi-using-buffons-needle-method">Part 2: Estimating \(\pi\) Using Buffon's Needle Method</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-theoretical-foundation_1">1. Theoretical Foundation</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#2-simulation-and-visualization">2. Simulation and Visualization</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_1"></a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-analysis-and-discussion">4. Analysis and Discussion</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#accuracy-comparison">Accuracy Comparison</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convergence-behavior">Convergence Behavior</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#5-code-explanation-review-of-logic">5. Code Explanation (Review of Logic)</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#circle-method">Circle Method</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#buffons-needle">Buffon's Needle</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#summary">Summary</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,6 +208,199 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h2 id="motivation">Motivation</h2>
+<p>Monte Carlo simulations are a powerful class of computational techniques that use randomness to solve problems or estimate values. One of the most elegant applications is the estimation of <span class="arithmatex">\(\pi\)</span> using geometric probability. By generating random points or simulating geometric experiments, we can estimate <span class="arithmatex">\(\pi\)</span> in intuitive and computationally effective ways.</p>
+<p>This problem connects geometry, probability theory, and numerical computation. It illustrates how the law of large numbers ensures convergence of the estimates and highlights how random sampling can solve complex real-world problems.</p>
+<hr/>
+<h2 id="part-1-estimating-pi-using-the-circle-method">Part 1: Estimating <span class="arithmatex">\(\pi\)</span> Using the Circle Method</h2>
+<h3 id="1-theoretical-foundation">1. Theoretical Foundation</h3>
+<p>We consider a unit circle inscribed in a square. The area of the square is:</p>
+<div class="arithmatex">\[
+A_{\text{square}} = 2 \cdot 2 = 4
+\]</div>
+<p>The area of the circle is:</p>
+<div class="arithmatex">\[
+A_{\text{circle}} = \pi \cdot 1^2 = \pi
+\]</div>
+<p>The probability that a randomly chosen point inside the square also lies inside the circle is the ratio:</p>
+<div class="arithmatex">\[
+P(\text{inside}) = \frac{A_{\text{circle}}}{A_{\text{square}}} = \frac{\pi}{4}
+\]</div>
+<p>If <span class="arithmatex">\(N\)</span> points are randomly generated in the square and <span class="arithmatex">\(N_{\text{in}}\)</span> fall inside the circle, then:</p>
+<div class="arithmatex">\[
+\frac{N_{\text{in}}}{N} \approx \frac{\pi}{4}
+\Rightarrow
+\pi \approx 4 \cdot \frac{N_{\text{in}}}{N}
+\]</div>
+<hr/>
+<h2 id="part-2-estimating-pi-using-buffons-needle-method">Part 2: Estimating <span class="arithmatex">\(\pi\)</span> Using Buffon's Needle Method</h2>
+<h3 id="1-theoretical-foundation_1">1. Theoretical Foundation</h3>
+<p>We drop a needle of length <span class="arithmatex">\(l\)</span> onto a plane with parallel lines spaced <span class="arithmatex">\(d\)</span> units apart. The probability that the needle crosses a line is:</p>
+<div class="arithmatex">\[
+P = \frac{2l}{\pi d}
+\]</div>
+<p>Solving for <span class="arithmatex">\(\pi\)</span>:</p>
+<div class="arithmatex">\[
+\pi \approx \frac{2l \cdot N_{\text{throws}}}{d \cdot N_{\text{crossings}}}
+\]</div>
+<p>A crossing occurs when the distance from the needle’s center to the nearest line satisfies:</p>
+<div class="arithmatex">\[
+x_{\text{center}} \leq \frac{l}{2} \cdot \sin(\theta)
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(x_{\text{center}}\)</span> is the distance from the needle’s center to the closest line.
+- <span class="arithmatex">\(\theta\)</span> is the angle between the needle and the lines.</p>
+<h3 id="2-simulation-and-visualization">2. Simulation and Visualization</h3>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# Circle method parameters
+N_points = 10000
+x = np.random.uniform(-1, 1, N_points)
+y = np.random.uniform(-1, 1, N_points)
+r = np.sqrt(x**2 + y**2)
+inside = r &lt;= 1
+pi_estimate_circle = 4 * np.sum(inside) / N_points
+
+# Buffon's needle parameters
+N_throws = 10000
+L = 1.0
+D = 1.0
+x_centers = np.random.uniform(0, D, N_throws)
+thetas = np.random.uniform(0, np.pi, N_throws)
+crossings = x_centers &lt;= (L / 2) * np.sin(thetas)
+N_cross = np.sum(crossings)
+pi_estimate_buffon = (2 * L * N_throws) / (D * N_cross) if N_cross &gt; 0 else 0
+
+# Plotting
+fig, axs = plt.subplots(2, 1, figsize=(6, 10))
+
+# Circle Method Plot
+axs[0].scatter(x[inside], y[inside], s=1, color='blue', label='Inside Circle')
+axs[0].scatter(x[~inside], y[~inside], s=1, color='red', label='Outside Circle')
+circle = plt.Circle((0, 0), 1, color='black', fill=False, label='Circle')
+axs[0].add_artist(circle)
+axs[0].set_title(f"Circle Method: Estimated π = {pi_estimate_circle:.4f}")
+axs[0].set_xlim([-1, 1])
+axs[0].set_ylim([-1, 1])
+axs[0].set_aspect('equal')
+axs[0].set_xlabel("x")
+axs[0].set_ylabel("y")
+axs[0].legend()
+
+# Buffon's Needle Plot
+axs[1].set_xlim([0, 5])
+axs[1].set_ylim([0, 50])
+axs[1].set_aspect('equal')
+axs[1].set_title(f"Buffon's Needle Method: Estimated π = {pi_estimate_buffon:.4f}")
+
+for i in range(0, 6):
+    axs[1].axvline(i * D / 2, color='black', linestyle='--', linewidth=0.5)
+
+for i in range(50):
+    xc = np.random.uniform(0, 5)
+    yc = np.random.uniform(0, 50)
+    theta = np.random.uniform(0, np.pi)
+    x0 = xc - (L / 2) * np.cos(theta)
+    x1 = xc + (L / 2) * np.cos(theta)
+    y0 = yc - (L / 2) * np.sin(theta)
+    y1 = yc + (L / 2) * np.sin(theta)
+    crosses = int(x0 // (D / 2)) != int(x1 // (D / 2))
+    color = 'blue' if crosses else 'red'
+    axs[1].plot([x0, x1], [y0, y1], color=color)
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="_1"><img alt="alt text" src="../image-3.png"/></h2>
+<h2 id="4-analysis-and-discussion">4. Analysis and Discussion</h2>
+<h3 id="accuracy-comparison">Accuracy Comparison</h3>
+<p>Monte Carlo methods rely on probabilistic convergence. We compare the two estimators of <span class="arithmatex">\(π\)</span>:</p>
+<ul>
+<li><strong>Circle Method</strong>: The estimate is based on a ratio of points inside the circle to the total number of randomly sampled points inside a square. Its accuracy improves as the number of points increases. Since each sample contributes directly to the estimate, convergence is relatively fast.</li>
+</ul>
+<div class="arithmatex">\[
+\pi \approx 4 \cdot \frac{N_{\text{inside}}}{N}
+\]</div>
+<ul>
+<li><strong>Buffon's Needle Method</strong>: This method is slower to converge due to its reliance on angular randomness and geometric constraints. The formula used is:</li>
+</ul>
+<div class="arithmatex">\[
+\pi \approx \frac{2l \cdot N_{\text{throws}}}{d \cdot N_{\text{crossings}}}
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(l\)</span> is the needle length,
+- <span class="arithmatex">\(d\)</span> is the distance between parallel lines,
+- <span class="arithmatex">\(N_{\text{throws}}\)</span> is the number of needle drops,
+- <span class="arithmatex">\(N_{\text{crossings}}\)</span> is the number of times the needle intersects a line.</p>
+<p>Despite its elegance, this method requires more trials to achieve the same level of accuracy.</p>
+<hr/>
+<h3 id="convergence-behavior">Convergence Behavior</h3>
+<ul>
+<li>Both estimators are subject to the <strong>Law of Large Numbers</strong>:</li>
+<li>As <span class="arithmatex">\(N \to \infty\)</span>, the estimates converge to the true value of <span class="arithmatex">\(π\)</span>.</li>
+<li>The <strong>circle method</strong> converges more efficiently:</li>
+<li>It leverages simple geometry with minimal variability.</li>
+<li>
+<p>The variance in the result is smaller for a given sample size.</p>
+</li>
+<li>
+<p><strong>Buffon’s needle</strong>, although historically significant, suffers from high variance:</p>
+</li>
+<li>It depends on two independent random variables: angle <span class="arithmatex">\(θ\)</span> and position <span class="arithmatex">\(x_{\text{center}}\)</span>.</li>
+<li>It often requires <span class="arithmatex">\(N &gt; 10^5\)</span> to stabilize.</li>
+</ul>
+<hr/>
+<h2 id="5-code-explanation-review-of-logic">5. Code Explanation (Review of Logic)</h2>
+<p>Below is an overview of how each segment of the project works and why:</p>
+<h3 id="circle-method">Circle Method</h3>
+<ol>
+<li><strong>Sample Generation</strong>:</li>
+<li>Random <span class="arithmatex">\((x, y)\)</span> coordinates are uniformly sampled in <span class="arithmatex">\([-1, 1]\)</span> to fill a square.</li>
+<li><strong>In-circle Check</strong>:</li>
+<li>Points satisfying <span class="arithmatex">\(x^2 + y^2 \leq 1\)</span> are counted as “inside the circle”.</li>
+<li><strong>Estimation</strong>:</li>
+<li>Ratio <span class="arithmatex">\(\frac{N_{\text{in}}}{N_{\text{total}}}\)</span> is scaled by 4 to approximate <span class="arithmatex">\(π\)</span>.</li>
+</ol>
+<h3 id="buffons-needle">Buffon's Needle</h3>
+<ol>
+<li><strong>Needle Drop Simulation</strong>:</li>
+<li>A needle of length <span class="arithmatex">\(l\)</span> is dropped with a random center <span class="arithmatex">\(x_c \in [0, d]\)</span> and angle <span class="arithmatex">\(θ \in [0, π]\)</span>.</li>
+<li><strong>Intersection Condition</strong>:</li>
+<li>If <span class="arithmatex">\(x_c \leq \frac{l}{2} \sin(θ)\)</span>, the needle crosses a line.</li>
+<li><strong>Estimation</strong>:</li>
+<li>The ratio <span class="arithmatex">\(\frac{N_{\text{crossings}}}{N_{\text{throws}}}\)</span> is used in the formula for <span class="arithmatex">\(π\)</span>.</li>
+</ol>
+<hr/>
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Formula</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Circle Method</td>
+<td><span class="arithmatex">\(π \approx 4 \cdot \frac{N_{\text{in}}}{N}\)</span></td>
+<td>Fast convergence, simple geometry</td>
+<td>Slight bias with low <span class="arithmatex">\(N\)</span></td>
+</tr>
+<tr>
+<td>Buffon’s Needle</td>
+<td><span class="arithmatex">\(π \approx \frac{2l \cdot N_{\text{throws}}}{d \cdot N_{\text{crossings}}}\)</span></td>
+<td>Theoretically elegant</td>
+<td>High variance, slow convergence</td>
+</tr>
+</tbody>
+</table>
+<p>Both simulations highlight the power of randomness in estimating mathematical constants. However, for practical computational estimation of <span class="arithmatex">\(π\)</span>, the circle method is recommended due to its efficiency and lower variability.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
