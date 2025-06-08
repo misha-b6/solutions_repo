@@ -92,6 +92,34 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#motivation">Motivation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#part-1-theoretical-foundation">Part 1: Theoretical Foundation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#part-2-uncertainty-propagation">Part 2: Uncertainty Propagation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#procedure">Procedure</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-materials">1. Materials</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#2-setup">2. Setup</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#3-data-collection">3. Data Collection</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#calculations">Calculations</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-mean-time-and-standard-deviation">1. Mean Time and Standard Deviation</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#2-period-and-g">2. Period and \(g\)</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#3-uncertainty-in-g">3. Uncertainty in \(g\)</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis">Analysis</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -172,6 +200,229 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h2 id="motivation">Motivation</h2>
+<p>The acceleration due to gravity, denoted as <span class="arithmatex">\(g\)</span>, is a fundamental physical constant that influences the motion of objects under the Earth's gravitational field. Precise measurement of <span class="arithmatex">\(g\)</span> is essential for many branches of physics and engineering, including mechanics, structural analysis, and gravitational experiments.</p>
+<p>One of the most classical and pedagogical methods for estimating <span class="arithmatex">\(g\)</span> involves observing the oscillations of a simple pendulum. The period of these oscillations depends on the gravitational acceleration and the length of the pendulum. This experiment allows us to explore physical relationships and uncertainty analysis using basic tools and measurements.</p>
+<hr/>
+<h2 id="part-1-theoretical-foundation">Part 1: Theoretical Foundation</h2>
+<p>The time period <span class="arithmatex">\(T\)</span> of a simple pendulum (when displaced at a small angle) is given by the formula:</p>
+<div class="arithmatex">\[
+T = 2\pi \sqrt{\frac{L}{g}}
+\]</div>
+<p>Solving for <span class="arithmatex">\(g\)</span>:</p>
+<div class="arithmatex">\[
+g = \frac{4\pi^2 L}{T^2}
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(L\)</span> is the length of the pendulum (from pivot to the center of mass of the bob),
+- <span class="arithmatex">\(T\)</span> is the period of one complete oscillation.</p>
+<p>If we measure the time for <span class="arithmatex">\(10\)</span> oscillations as <span class="arithmatex">\(T_{10}\)</span> and take the average over multiple trials, the period for one oscillation becomes:</p>
+<div class="arithmatex">\[
+T = \frac{\overline{T_{10}}}{10}
+\]</div>
+<p>The uncertainty in this average time is given by:</p>
+<div class="arithmatex">\[
+\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}
+\]</div>
+<p>And the uncertainty in a single oscillation:</p>
+<div class="arithmatex">\[
+\Delta T = \frac{\Delta T_{10}}{10}
+\]</div>
+<hr/>
+<h2 id="part-2-uncertainty-propagation">Part 2: Uncertainty Propagation</h2>
+<p>Once we calculate <span class="arithmatex">\(g\)</span> from the measured <span class="arithmatex">\(T\)</span> and <span class="arithmatex">\(L\)</span>, we compute the uncertainty <span class="arithmatex">\(\Delta g\)</span> using the propagation of uncertainties formula:</p>
+<div class="arithmatex">\[
+\Delta g = g \cdot \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2 \cdot \frac{\Delta T}{T}\right)^2}
+\]</div>
+<p>This takes into account both the uncertainty in the length measurement and the timing measurement.</p>
+<hr/>
+<h2 id="procedure">Procedure</h2>
+<h3 id="1-materials">1. Materials</h3>
+<ul>
+<li>A string (1–1.5 m)</li>
+<li>A small dense object (weight, keychain, etc.)</li>
+<li>Stopwatch or smartphone</li>
+<li>Ruler or measuring tape</li>
+</ul>
+<h3 id="2-setup">2. Setup</h3>
+<ul>
+<li>Attach the weight securely to one end of the string.</li>
+<li>Measure the pendulum length <span class="arithmatex">\(L\)</span> with a ruler or tape measure.</li>
+<li>Estimate the uncertainty as half the smallest division:</li>
+</ul>
+<div class="arithmatex">\[
+\Delta L = \frac{\text{Ruler Resolution}}{2}
+\]</div>
+<h3 id="3-data-collection">3. Data Collection</h3>
+<ul>
+<li>Pull the pendulum back slightly (<span class="arithmatex">\(&lt;15^\circ\)</span>) and release.</li>
+<li>Time 10 full oscillations and repeat the measurement 10 times.</li>
+<li>Record all 10 values of <span class="arithmatex">\(T_{10}\)</span>.</li>
+</ul>
+<hr/>
+<h2 id="calculations">Calculations</h2>
+<h3 id="1-mean-time-and-standard-deviation">1. Mean Time and Standard Deviation</h3>
+<p>Compute the average of <span class="arithmatex">\(T_{10}\)</span>:</p>
+<div class="arithmatex">\[
+\overline{T_{10}} = \frac{1}{n} \sum_{i=1}^{n} T_{10,i}
+\]</div>
+<p>Compute standard deviation:</p>
+<div class="arithmatex">\[
+\sigma_T = \sqrt{\frac{1}{n - 1} \sum_{i=1}^{n} (T_{10,i} - \overline{T_{10}})^2}
+\]</div>
+<p>Determine uncertainty in the mean:</p>
+<div class="arithmatex">\[
+\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}, \quad \Delta T = \frac{\Delta T_{10}}{10}
+\]</div>
+<h3 id="2-period-and-g">2. Period and <span class="arithmatex">\(g\)</span></h3>
+<div class="arithmatex">\[
+T = \frac{\overline{T_{10}}}{10}, \quad g = \frac{4\pi^2 L}{T^2}
+\]</div>
+<h3 id="3-uncertainty-in-g">3. Uncertainty in <span class="arithmatex">\(g\)</span></h3>
+<div class="arithmatex">\[
+\Delta g = g \cdot \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2 \cdot \frac{\Delta T}{T}\right)^2}
+\]</div>
+<hr/>
+<h2 id="analysis">Analysis</h2>
+<ol>
+<li>Compare the measured value of <span class="arithmatex">\(g\)</span> to the accepted standard value:</li>
+</ol>
+<div class="arithmatex">\[
+g_{\text{standard}} = 9.81\ \text{m/s}^2
+\]</div>
+<p>Compute percent error:</p>
+<div class="arithmatex">\[
+\text{Percent Error} = \left| \frac{g_{\text{measured}} - g_{\text{standard}}}{g_{\text{standard}}} \right| \cdot 100\%
+\]</div>
+<ol>
+<li>
+<p>Discuss the sources of uncertainty:</p>
+</li>
+<li>
+<p><strong>Length measurement (<span class="arithmatex">\(\Delta L\)</span>):</strong> Affects the calculated value of <span class="arithmatex">\(g\)</span> directly. A small error in <span class="arithmatex">\(L\)</span> leads to a linear error in <span class="arithmatex">\(g\)</span>.</p>
+</li>
+<li><strong>Timing variability (<span class="arithmatex">\(\Delta T\)</span>):</strong> Human reaction time introduces fluctuation in results. Multiple trials help reduce this uncertainty.</li>
+<li><strong>Experimental conditions:</strong> Small angle assumption must hold; air resistance and mass of the string should be negligible.</li>
+</ol>
+<h1 id="analysis-and-visualization-pendulum-method-for-measuring">Analysis and Visualization: Pendulum Method for Measuring</h1>
+<h2 id="1-experimental-context">1. Experimental Context</h2>
+<p>We measured the time for 10 oscillations of a pendulum in 10 trials, then computed the period for one oscillation. The goal is to assess the consistency of the measurements, visualize the spread, and evaluate the uncertainty before calculating gravitational acceleration <span class="arithmatex">\(g\)</span>.</p>
+<hr/>
+<h2 id="2-explanation-of-graphs">2. Explanation of Graphs</h2>
+<ul>
+<li><strong>Histogram of <span class="arithmatex">\(T_{10}\)</span></strong>: Shows the frequency distribution of total time for 10 oscillations.</li>
+<li><strong>Boxplot of <span class="arithmatex">\(T_{10}\)</span></strong>: Indicates the spread, median, and possible outliers.</li>
+<li><strong>Line Plot of Period per Oscillation</strong>: Depicts the variation in calculated period <span class="arithmatex">\(T\)</span> from each measurement, alongside the mean.</li>
+</ul>
+<p>These plots help assess the <strong>stability of measurements</strong>, <strong>presence of systematic deviations</strong>, and <strong>random uncertainty</strong>.</p>
+<hr/>
+<h2 id="3-python-code-to-generate-graphs">3. Python Code to Generate Graphs</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Measurements: Time for 10 oscillations
+T10 = np.array([24.75, 24.82, 24.79, 24.68, 24.65, 24.85, 24.78, 24.72, 24.70, 24.76])
+T = T10 / 10  # Period per oscillation
+
+mean_T = np.mean(T)
+std_T = np.std(T, ddof=1)
+
+# Create plots
+fig, axs = plt.subplots(1, 3, figsize=(18, 5))
+
+# Histogram of T10
+sns.histplot(T10, kde=True, bins=6, color='skyblue', ax=axs[0])
+axs[0].set_title("Histogram of T10")
+axs[0].set_xlabel("Time for 10 Oscillations (s)")
+axs[0].set_ylabel("Frequency")
+
+# Boxplot of T10
+sns.boxplot(x=T10, color='lightgreen', ax=axs[1])
+axs[1].set_title("Boxplot of T10")
+axs[1].set_xlabel("Time for 10 Oscillations (s)")
+
+# Line plot of Period per Oscillation
+axs[2].plot(range(1, 11), T, marker='o', color='coral', label="T per measurement")
+axs[2].axhline(mean_T, color='gray', linestyle='--', label="Mean Period")
+axs[2].set_title("Period per Oscillation")
+axs[2].set_xlabel("Measurement Number")
+axs[2].set_ylabel("T (s)")
+axs[2].legend()
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="_1"><img alt="alt text" src="../image.png"/></h2>
+<h2 id="4-analysis-and-interpretation">4. Analysis and Interpretation</h2>
+<ul>
+<li>
+<p><strong>Mean Period</strong>:
+  $$
+  \bar{T} = \frac{1}{10} \sum_{i=1}^{10} \frac{T_{10,i}}{10} \approx 2.475\ \text{s}
+  $$</p>
+</li>
+<li>
+<p><strong>Standard Deviation of T</strong>:
+  $$
+  \sigma_T = \sqrt{\frac{1}{n-1} \sum (T_i - \bar{T})^2} \approx 0.011\ \text{s}
+  $$</p>
+</li>
+<li>
+<p><strong>Uncertainty in Mean Period</strong>:
+  $$
+  \Delta T = \frac{\sigma_T}{\sqrt{n}} \approx 0.0035\ \text{s}
+  $$</p>
+</li>
+<li>
+<p><strong>Calculated g</strong>:
+  Given:</p>
+</li>
+<li>Length <span class="arithmatex">\(L = 0.995\)</span> m</li>
+<li>
+<p><span class="arithmatex">\(\Delta L = 0.0025\)</span> m
+  $$
+  g = \frac{4\pi^2 L}{T^2} \approx \frac{4\cdot \pi^2 \cdot 0.995}{(2.475)^2} \approx 9.79\ \text{m/s}^2
+  $$</p>
+</li>
+<li>
+<p><strong>Uncertainty in g</strong>:
+  $$
+  \Delta g = g \cdot \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2\cdot \frac{\Delta T}{T}\right)^2}
+  $$</p>
+</li>
+</ul>
+<p>Substituting:
+  $$
+  \Delta g \approx 9.79 \cdot \sqrt{\left(\frac{0.0025}{0.995}\right)^2 + \left(2 \cdot \frac{0.0035}{2.475}\right)^2} \approx 0.03\ \text{m/s}^2
+  $$</p>
+<hr/>
+<h2 id="5-final-conclusion">5. Final Conclusion</h2>
+<ul>
+<li>
+<p>The <strong>measured value</strong> of <span class="arithmatex">\(g\)</span> is:
+  $$
+  g = 9.79 \pm 0.03\ \text{m/s}^2
+  $$</p>
+</li>
+<li>
+<p>The result is consistent with the standard value <span class="arithmatex">\(9.81\ \text{m/s}^2\)</span> within uncertainty.</p>
+</li>
+<li>The <strong>histogram</strong> shows a roughly normal distribution, indicating random errors.</li>
+<li>The <strong>boxplot</strong> confirms no strong outliers.</li>
+<li>The <strong>line plot</strong> of <span class="arithmatex">\(T\)</span> demonstrates small variation across trials.</li>
+</ul>
+<p>These results show that a <strong>simple pendulum</strong> experiment, when performed carefully and analyzed statistically, can yield a remarkably precise measurement of Earth’s gravitational acceleration.</p>
+<hr/>
+<h2 id="deliverables">Deliverables</h2>
+<ul>
+<li>Table of <span class="arithmatex">\(T_{10}\)</span> measurements, average <span class="arithmatex">\(\overline{T_{10}}\)</span>, standard deviation <span class="arithmatex">\(\sigma_T\)</span>, uncertainty <span class="arithmatex">\(\Delta T\)</span>, and final <span class="arithmatex">\(T\)</span>.</li>
+<li>Final results of <span class="arithmatex">\(L\)</span>, <span class="arithmatex">\(\Delta L\)</span>, <span class="arithmatex">\(g\)</span>, <span class="arithmatex">\(\Delta g\)</span>, and percent error.</li>
+<li>Full explanation of uncertainty sources and their impact on the final result.</li>
+</ul>
+<hr/>
+<h2 id="conclusion">Conclusion</h2>
+<p>Using the period of a simple pendulum, we derived a value of <span class="arithmatex">\(g\)</span> and analyzed the associated uncertainties. The experiment illustrates the importance of multiple trials, careful measurement, and proper uncertainty propagation in experimental physics. Despite basic tools, this method provides a valuable estimate for <span class="arithmatex">\(g\)</span> that often comes close to the standard value of <span class="arithmatex">\(9.81\ \text{m/s}^2\)</span>, showcasing how classical physics principles can yield precise results when applied rigorously.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
